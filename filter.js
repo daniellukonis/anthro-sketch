@@ -1,3 +1,5 @@
+const FULLCIRCLE = Math.PI * 2
+
 function drawPaperShadows(color = "#000"){
     const x = Math.floor(canvas.width * fxrand())
     const y = Math.floor(canvas.height * fxrand())
