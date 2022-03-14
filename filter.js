@@ -1,31 +1,31 @@
 const FULLCIRCLE = Math.PI * 2
 
 function drawPaperShadows(color = "#000"){
-    const x = Math.floor(canvas.width * fxrand())
-    const y = Math.floor(canvas.height * fxrand())
-    context.save()
-    context.fillStyle = "#000"
-    context.filter = "blur(100px)"
-    context.beginPath()
-    context.arc(x , y, 10, 0, FULLCIRCLE)
-    context.fill()
-    context.restore()
+    const x = Math.floor(canvasFilter.width * fxrand())
+    const y = Math.floor(canvasFilter.height * fxrand())
+    contextFilter.save()
+    contextFilter.fillStyle = "#000"
+    contextFilter.filter = "blur(100px)"
+    contextFilter.beginPath()
+    contextFilter.arc(x , y, 10, 0, FULLCIRCLE)
+    contextFilter.fill()
+    contextFilter.restore()
 }
 
 function drawPaperDots(color = "#00000010"){
-    const x = Math.floor(canvas.width * fxrand())
-    const y = Math.floor(canvas.height * fxrand())
-    context.save()
-    context.fillStyle = color
-    context.beginPath()
-    context.arc(x, y, 1, 0, FULLCIRCLE)
-    context.fill()
-    context.restore()
+    const x = Math.floor(canvasFilter.width * fxrand())
+    const y = Math.floor(canvasFilter.height * fxrand())
+    contextFilter.save()
+    contextFilter.fillStyle = color
+    contextFilter.beginPath()
+    contextFilter.arc(x, y, 1, 0, FULLCIRCLE)
+    contextFilter.fill()
+    contextFilter.restore()
 }
 
 function paperFilters(percentage = 1 , filterFunction, color = "#000"){
-    const canvasArea = canvas.width * canvas.height
-    const count = Math.floor(canvasArea * percentage / 100)
+    const canvasFilterArea = canvasFilter.width * canvasFilter.height
+    const count = Math.floor(canvasFilterArea * percentage / 100)
     for(let i = 0; i < count; i++){
         filterFunction(color)
     }   

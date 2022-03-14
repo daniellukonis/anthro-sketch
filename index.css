@@ -19,3 +19,20 @@ body{
     justify-content: center;
     /* background-color: whitesmoke; */
 }
+
+canvas{
+    position: fixed;
+}
+
+#base-cavnas{
+    z-index: 1;
+}
+#book{
+    z-index: 2;
+}
+#filter{
+    z-index: 3;
+}
+#skeleton{
+    z-index: 4;
+}
