@@ -1,13 +1,12 @@
 // Author : ART4VETS
 drawBook()
-// drawSkeleton()
 applyFilers()
 calcSkeleton()
 calcJointRadius()
 drawSkeleton()
 function loop(){
     requestAnimationFrame(loop)
-    drawBook()
+    clearCanvas(canvasSkeleton , contextSkeleton)
     drawSkeleton()
 }
 

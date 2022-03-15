@@ -33,6 +33,7 @@ const SKELETON = [
     "rightWrist",
     "leftHand",
     "rightHand",
+    "chest",
     "neck",
     "head"
 ]
@@ -44,169 +45,226 @@ function calcCoords([x1,y1],r,a){
 }
 
 const skeleton = {
-    halfHeight: Math.floor(canvas.height * 0.9 * 0.5),
-    halfWidth: Math.floor(canvas.height * 0.4 * 0.5),
-    centerX: Math.floor(canvas.width * 0.4),
-    centerY: Math.floor(canvas.height * 0.5),
+    halfHeight: Math.floor(canvasSkeleton.height * 0.9 * 0.5),
+    halfWidth: Math.floor(canvasSkeleton.height * 0.4 * 0.5),
+    centerX: Math.floor(canvasSkeleton.width * 0.4),
+    centerY: Math.floor(canvasSkeleton.height * 0.5),
     radius: 10,
 
     centerOfMass: {
         length: 0,
         angle: 0,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1,
+        skipDraw: 1
     },
 
     leftLegSocket: {
-        length: Math.floor(canvas.height * 0.08),
+        length: Math.floor(canvasSkeleton.height * 0.08),
         angle: PI45,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
     rightLegSocket: {
-        length: Math.floor(canvas.height * 0.08),
+        length: Math.floor(canvasSkeleton.height * 0.08),
         angle: -PI45,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     leftHip: {
-        length: Math.floor(canvas.height * 0.08),
+        length: Math.floor(canvasSkeleton.height * 0.08),
         angle: PI90,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
     rightHip: {
-        length: Math.floor(canvas.height * 0.08),
+        length: Math.floor(canvasSkeleton.height * 0.08),
         angle: -PI90,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     leftKnee: {
-        length: Math.floor(canvas.height * 0.15),
+        length: Math.floor(canvasSkeleton.height * 0.15),
         angle: PI11,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "leftLegSocket",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
     rightKnee: {
-        length: Math.floor(canvas.height * 0.15),
+        length: Math.floor(canvasSkeleton.height * 0.15),
         angle: -PI11,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "rightLegSocket",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     leftAnkle: {
-        length: Math.floor(canvas.height * 0.15),
+        length: Math.floor(canvasSkeleton.height * 0.15),
         angle: 0,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "leftKnee",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
     rightAnkle: {
-        length: Math.floor(canvas.height * 0.15),
+        length: Math.floor(canvasSkeleton.height * 0.15),
         angle: 0,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "rightKnee",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     leftFoot: {
-        length: Math.floor(canvas.height * 0.05),
+        length: Math.floor(canvasSkeleton.height * 0.05),
         angle: PI45,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "leftAnkle",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
     rightFoot: {
-        length: Math.floor(canvas.height * 0.05),
+        length: Math.floor(canvasSkeleton.height * 0.05),
         angle: -PI45,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "rightAnkle",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     leftArmSocket: {
-        length: Math.floor(canvas.height * 0.25),
+        length: Math.floor(canvasSkeleton.height * 0.25),
         angle: PI180 - PI22,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1,
+        skipDraw: 2
     },
     rightArmSocket: {
-        length: Math.floor(canvas.height * 0.25),
+        length: Math.floor(canvasSkeleton.height * 0.25),
         angle: -PI180 + PI22,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1,
+        skipDraw: 2
     },
 
     leftElbow: {
-        length: Math.floor(canvas.height * 0.15),
+        length: Math.floor(canvasSkeleton.height * 0.15),
         angle: PI22,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "leftArmSocket",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
     rightElbow: {
-        length: Math.floor(canvas.height * 0.15),
+        length: Math.floor(canvasSkeleton.height * 0.15),
         angle: -PI22,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "rightArmSocket",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     leftWrist: {
-        length: Math.floor(canvas.height * 0.10),
+        length: Math.floor(canvasSkeleton.height * 0.10),
         angle: 0,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "leftElbow",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
     rightWrist: {
-        length: Math.floor(canvas.height * 0.10),
+        length: Math.floor(canvasSkeleton.height * 0.10),
         angle: 0,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "rightElbow",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     leftHand: {
-        length: Math.floor(canvas.height * 0.03),
+        length: Math.floor(canvasSkeleton.height * 0.03),
         angle: PI45,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "leftWrist",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     rightHand: {
-        length: Math.floor(canvas.height * 0.03),
+        length: Math.floor(canvasSkeleton.height * 0.03),
         angle: -PI45,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "rightWrist",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
     },
-    neck: {
-        length: Math.floor(canvas.height * 0.25),
+
+    chest: {
+        length: Math.floor(canvasSkeleton.height * 0.16),
         angle: -PI180,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "centerOfMass",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1
+    },
+
+    neck: {
+        length: Math.floor(canvasSkeleton.height * 0.1),
+        angle: -PI180,
+        coord: [0,0],
+        midPoint: [0,0],
+        parent: "chest",
+        jointRadius: 10,
+        lineWidth: 1
     },
 
     head: {
-        length: Math.floor(canvas.height * 0.1),
+        length: Math.floor(canvasSkeleton.height * 0.1),
         angle: -PI180,
         coord: [0,0],
+        midPoint: [0,0],
         parent: "neck",
-        jointRadius: 10
+        jointRadius: 10,
+        lineWidth: 1,
+        // skipDraw: 1
     }
 }
 
@@ -225,56 +283,92 @@ function calcJointRadius(){
     })
 }
 
-function drawJoint(joint , sk = skeleton){
-    // const randomRadius = sk.radius * fxrand()
-    context.save()
-    context.filter = PENCILBLUR
-    context.lineWidth = fxrand() + PENCILWIDTH
-    context.strokeStyle = PENCILSTROKE
-    context.translate(sk.centerX, sk.centerY)
-    context.beginPath()
-    context.arc(sk[joint].coord[0] , sk[joint].coord[1] , sk[joint].jointRadius , 0 , PI360)
-    context.stroke()
-    context.restore()
+function calcLineWidth(){
+    SKELETON.forEach(sk =>{
+        skeleton[sk].lineWidth = PENCILWIDTH * fxrand()
+    })
 }
 
+function calcMidPoint(jointA , sk = skeleton){
+    const x1 = sk[jointA].coord[0]
+    const y1 = sk[jointA].coord[1]
+    const halfLength = sk[jointA].length / 2
+    const angle = BASEANGLE + sk[jointA].angle + PI180
+    sk[jointA].midPoint = calcCoords([x1, y1], halfLength, angle)
 
-function connectJoint(joint, sk = skeleton){
+    // console.log(half)
+}
+
+function drawJointArc(joint , sk = skeleton){
+    contextSkeleton.save()
+    contextSkeleton.filter = PENCILBLUR
+    contextSkeleton.lineWidth = sk[joint].lineWidth
+    contextSkeleton.strokeStyle = PENCILSTROKE
+    contextSkeleton.translate(sk.centerX, sk.centerY)
+    contextSkeleton.beginPath()
+    contextSkeleton.arc(sk[joint].coord[0] , sk[joint].coord[1] , sk[joint].jointRadius , 0 , PI360)
+    contextSkeleton.stroke()
+    contextSkeleton.restore()
+}
+
+function drawJointMidpoint(joint , sk = skeleton){
+    if(sk[joint].skipDraw === 1){return}
+    if(sk[joint].skipDraw === 2){return}
+    contextSkeleton.save()
+    contextSkeleton.filter = PENCILBLUR
+    // contextSkeleton.lineWidth = sk[joint].lineWidth
+    contextSkeleton.strokeStyle = PENCILSTROKE
+    contextSkeleton.translate(sk.centerX, sk.centerY)
+    contextSkeleton.beginPath()
+    contextSkeleton.arc(sk[joint].midPoint[0] , sk[joint].midPoint[1] , 2 , 0 , PI360)
+    contextSkeleton.stroke()
+    contextSkeleton.restore()
+}
+
+function drawJointEllipse(joint , sk = skeleton){
+    if(sk[joint].skipDraw === 1){return}
+    if(sk[joint].skipDraw === 2){return}
+    const angle = BASEANGLE + sk[joint].angle + PI180
+    const width = sk[joint].length / 1.5
+    const height = width / 4
+    contextSkeleton.save()
+    contextSkeleton.filter = PENCILBLUR
+    contextSkeleton.lineWidth = sk[joint].lineWidth
+    contextSkeleton.strokeStyle = PENCILSTROKE
+    contextSkeleton.translate(sk.centerX, sk.centerY)
+    contextSkeleton.beginPath()
+    contextSkeleton.ellipse(sk[joint].midPoint[0] , sk[joint].midPoint[1], width, height , angle , 0 , PI360)
+    contextSkeleton.stroke()
+    contextSkeleton.restore()
+}
+
+function drawHead(joint , sk = skeleton){
+    const radius = sk[joint].length / 2
+    contextSkeleton.save()
+    contextSkeleton.filter = PENCILBLUR
+    contextSkeleton.lineWidth = sk[joint].lineWidth
+    contextSkeleton.strokeStyle = PENCILSTROKE
+    contextSkeleton.translate(sk.centerX, sk.centerY)
+    contextSkeleton.beginPath()
+    contextSkeleton.arc(sk[joint].coord[0] , sk[joint].coord[1] , radius , 0 , PI360)
+    contextSkeleton.stroke()
+    contextSkeleton.restore()
+}
+
+function drawJointConnection(joint, sk = skeleton){
+    if(sk[joint].skipDraw === 1){return}
+    if(sk[joint].skipDraw === 2){return}
     const parent = sk[joint].parent
-    context.save()
-    context.filter = PENCILBLUR
-    context.lineWidth = fxrand() + PENCILWIDTH
-    context.strokeStyle = PENCILSTROKE
-    context.translate(sk.centerX, sk.centerY)
-    context.beginPath()
-    context.moveTo(sk[joint].coord[0] , sk[joint].coord[1])
-    context.lineTo(sk[parent].coord[0] , sk[parent].coord[1])
-    context.stroke()
-    context.restore()
-}
-
-function drawHip(sk = skeleton){
-    // Math.abs(sk["leftHip"].coord[0] )
-    const x1 = sk["rightHip"].coord[0]
-    const y1 = sk["rightHip"].coord[1]
-
-    const x2 = sk["leftHip"].coord[0]
-    const y2 = sk["leftHip"].coord[1]
-
-    const xDist = Math.abs(x1) + Math.abs(x2)
-    const yDist = Math.abs(y1) + Math.abs(y2)
-
-    console.log(xDist, yDist)
-    // const randomRadius = sk.radius * fxrand()
-    context.save()
-    // context.filter = PENCILBLUR
-    // context.lineWidth = 2 //fxrand() + PENCILWIDTH
-    context.strokeStyle = "black"//PENCILSTROKE
-    context.translate(sk.centerX,sk.centerY)
-    context.beginPath()
-    // context.ellipse(x,y,10,40, sk["rightHip"].angle,0,PI360)
-    context.stroke()
-    context.restore()
+    contextSkeleton.save()
+    contextSkeleton.filter = PENCILBLUR
+    contextSkeleton.lineWidth = fxrand() + PENCILWIDTH
+    contextSkeleton.strokeStyle = PENCILSTROKE
+    contextSkeleton.translate(sk.centerX, sk.centerY)
+    contextSkeleton.beginPath()
+    contextSkeleton.moveTo(sk[joint].coord[0] , sk[joint].coord[1])
+    contextSkeleton.lineTo(sk[parent].coord[0] , sk[parent].coord[1])
+    contextSkeleton.stroke()
+    contextSkeleton.restore()
 }
 
 function calcSkeleton(){
@@ -283,22 +377,43 @@ function calcSkeleton(){
     })
 }
 
-function drawJoints(){
-    SKELETON.forEach(sk =>{
-        drawJoint(sk)
+function calcMidpoints(){
+    SKELETON.forEach(sk=>{
+        calcMidPoint(sk)
     })
 }
 
-function connectJoints(){
+function drawJoints(){
     SKELETON.forEach(sk =>{
-        connectJoint(sk)
+        drawJointArc(sk)
+    })
+}
+
+function drawJointMidpoints(){
+    SKELETON.forEach(sk =>{
+        drawJointMidpoint(sk)
+    })
+}
+
+function drawJointEllipses(){
+    SKELETON.forEach(sk =>{
+        drawJointEllipse(sk)
+    })
+}
+
+function drawConnections(){
+    SKELETON.forEach(sk =>{
+        drawJointConnection(sk)
     })
 }
 
 function drawSkeleton(sk = skeleton){
     calcSkeleton()
-    // calcJointRadius()
-    drawHip()
+    calcMidpoints()
+    calcLineWidth()
     drawJoints()
-    connectJoints()
+    drawJointEllipses()
+    drawJointMidpoints()
+    drawConnections()
+    drawHead("head")
 }

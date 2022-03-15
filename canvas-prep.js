@@ -34,3 +34,9 @@ function colorCanvas(cavnasObject = canvas, contextObject = context, color = "#F
 }
 
 colorCanvas(canvas, context, "#CCC")
+
+function clearCanvas(canvasObject , contextObject){
+    contextObject.save()
+    contextObject.clearRect(0 ,0 ,canvasObject.width, canvasObject.height)
+    contextObject.restore()
+}
