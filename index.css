@@ -36,3 +36,6 @@ canvas{
 #skeleton{
     z-index: 4;
 }
+#book-background{
+    z-index: 5;
+}

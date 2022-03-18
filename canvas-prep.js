@@ -5,11 +5,13 @@ const canvas = document.querySelector("#base-canvas")
 const canvasBook = document.querySelector("#book")
 const canvasFilter = document.querySelector("#filter")
 const canvasSkeleton = document.querySelector("#skeleton")
+const canvasBookBackground = document.querySelector("#book-background")
 
 const context = canvas.getContext("2d")
 const contextBook = canvasBook.getContext("2d")
 const contextFilter = canvasFilter.getContext("2d")
 const contextSkeleton = canvasSkeleton.getContext("2d")
+const contextBookBackground = canvasBookBackground.getContext("2d")
 
 const allCanvas = document.querySelectorAll("canvas")
 
@@ -21,8 +23,6 @@ resizeCanvas()
 
 function resizeAllCanvas(cavnasObject = allCanvas){
     cavnasObject.forEach(c => resizeCanvas(c))
-    // cavnasObject.width = window.innerWidth
-    // cavnasObject.height = window.innerHeight
 }
 resizeAllCanvas()
 

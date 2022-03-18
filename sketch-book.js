@@ -49,7 +49,26 @@ function bindLine(){
     contextBook.restore()
 }
 
+function bookBackground(){
+    const margin = 3
+    contextBookBackground.save()
+    const gradient = contextBook.createLinearGradient(PAGETOPMID[0], PAGETOPMID[1], canvasBook.width * 0.9, 0)
+    gradient.addColorStop(0, "#55F")
+    gradient.addColorStop(1, "#F5F" )
+    contextBookBackground.fillStyle = gradient
+    contextBookBackground.beginPath()
+    contextBookBackground.moveTo(canvasBookBackground.width, 0)
+    contextBookBackground.lineTo(PAGETOPBEND[0] + margin, PAGETOPBEND[1])
+    contextBookBackground.quadraticCurveTo(Math.floor(PAGETOPMID[0] * 0.90) + margin , 0, PAGETOPMID[0], PAGETOPMID[1])
+    contextBookBackground.lineTo(PAGETOPMID[0] + margin, Math.floor(PAGETOPMID[1] * 1.1) - margin / 3)
+    contextBookBackground.quadraticCurveTo(Math.floor(PAGETOPMID[0] * 1.1) , Math.floor(PAGETOPMID[1] * 0.8 ), canvasBookBackground.width, PAGETOPMID[1])
+    contextBookBackground.closePath()
+    contextBookBackground.fill()
+    contextBookBackground.restore()
+}
+
 function drawBook(){
+    // bookBackground()
     paperGradientRight()
     paperGradientLeft()
     bindLine()

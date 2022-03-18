@@ -8,10 +8,12 @@ const PI180 = Math.PI
 const PI360 = Math.PI * 2
 
 const PENCILSTROKE = "#33333375"
-const PENCILWIDTH = 0
+const PENCILWIDTH = 3
 const PENCILBLUR = "blur(1px)"
 
 const JOINTRADIUS = 10
+
+const SKVELOCITY = 0.01;
 
 const SKELETON = [
     "centerOfMass",
@@ -35,7 +37,9 @@ const SKELETON = [
     "rightHand",
     "chest",
     "neck",
-    "head"
+    "head",
+    // "leftShoulder",
+    // "rightShoulder"
 ]
 
 function calcCoords([x1,y1],r,a){
@@ -88,7 +92,8 @@ const skeleton = {
         midPoint: [0,0],
         parent: "centerOfMass",
         jointRadius: 10,
-        lineWidth: 1
+        lineWidth: 1,
+        skipDraw: 1
     },
     rightHip: {
         length: Math.floor(canvasSkeleton.height * 0.08),
@@ -97,7 +102,8 @@ const skeleton = {
         midPoint: [0,0],
         parent: "centerOfMass",
         jointRadius: 10,
-        lineWidth: 1
+        lineWidth: 1,
+        skipDraw: 1
     },
 
     leftKnee: {
@@ -265,11 +271,32 @@ const skeleton = {
         jointRadius: 10,
         lineWidth: 1,
         // skipDraw: 1
-    }
+    },
+    leftShoulder: {
+        length: Math.floor(canvasSkeleton.height * 0.05),
+        angle: PI90,
+        coord: [0,0],
+        midPoint: [0,0],
+        parent: "neck",
+        jointRadius: 10,
+        lineWidth: 1,
+        // skipDraw: 2
+    },
+    rightShoulder: {
+        length: Math.floor(canvasSkeleton.height * 0.05),
+        angle: -PI90,
+        coord: [0,0],
+        midPoint: [0,0],
+        parent: "neck",
+        jointRadius: 10,
+        lineWidth: 1,
+        // skipDraw: 2
+    },
+
 }
 
 function calcPoints(joint, sk = skeleton){
-    const randomAngle = fxrand() / 5
+    const randomAngle = fxrand() / 3
     const randomDirection = fxrand() > 0.5 ? 1 : -1
     sk1 = sk[joint]
     sk2 = sk[sk1.parent]
@@ -285,7 +312,7 @@ function calcJointRadius(){
 
 function calcLineWidth(){
     SKELETON.forEach(sk =>{
-        skeleton[sk].lineWidth = PENCILWIDTH * fxrand()
+        skeleton[sk].lineWidth = PENCILWIDTH * fxrand() + 0.5
     })
 }
 
@@ -316,7 +343,7 @@ function drawJointMidpoint(joint , sk = skeleton){
     if(sk[joint].skipDraw === 2){return}
     contextSkeleton.save()
     contextSkeleton.filter = PENCILBLUR
-    // contextSkeleton.lineWidth = sk[joint].lineWidth
+    contextSkeleton.lineWidth = sk[joint].lineWidth
     contextSkeleton.strokeStyle = PENCILSTROKE
     contextSkeleton.translate(sk.centerX, sk.centerY)
     contextSkeleton.beginPath()
@@ -361,7 +388,7 @@ function drawJointConnection(joint, sk = skeleton){
     const parent = sk[joint].parent
     contextSkeleton.save()
     contextSkeleton.filter = PENCILBLUR
-    contextSkeleton.lineWidth = fxrand() + PENCILWIDTH
+    contextSkeleton.lineWidth = sk[joint].lineWidth
     contextSkeleton.strokeStyle = PENCILSTROKE
     contextSkeleton.translate(sk.centerX, sk.centerY)
     contextSkeleton.beginPath()
@@ -374,6 +401,7 @@ function drawJointConnection(joint, sk = skeleton){
 function calcSkeleton(){
     SKELETON.forEach(sk =>{
         calcPoints(sk)
+        
     })
 }
 
@@ -407,12 +435,17 @@ function drawConnections(){
     })
 }
 
+function cycleAngle(joint, sk = skeleton){
+    sk[joint].angle += SKVELOCITY
+}
+
 function drawSkeleton(sk = skeleton){
+    // cycleAngle("leftAnkle")
     calcSkeleton()
     calcMidpoints()
     calcLineWidth()
     drawJoints()
-    drawJointEllipses()
+    // drawJointEllipses()
     drawJointMidpoints()
     drawConnections()
     drawHead("head")
